@@ -215,7 +215,7 @@ class ResultTest {
   }
 
   @Test
-  @DisplayName("call on value result \uD83D\uDCE3 \uD83D\uDCB0")
+  @DisplayName("call on value result \uD83D\uDCB0 \u2B95 \uD83D\uDCE3")
   void callOnValue() {
     // GIVEN
     @SuppressWarnings("unchecked")
@@ -234,7 +234,38 @@ class ResultTest {
   }
 
   @Test
-  @DisplayName("call on error result \uD83D\uDCE3 \uD83D\uDCA3")
+  @DisplayName("call success on value result \uD83D\uDCB0 \u2B95  \uD83D\uDCE3 \u2B95 \uD83D\uDCB0")
+  void callSuccessOnValue() {
+    // GIVEN
+    @SuppressWarnings("unchecked")
+    Consumer<String> onSuccess = mock(Consumer.class);
+    String expectedValue = "expectedValue";
+    Result<String, Object> result = Result.ofValue(expectedValue);
+
+    // WHEN
+    result.callOnSuccess(onSuccess);
+
+    // THEN
+    verify(onSuccess).accept(expectedValue);
+  }
+
+  @Test
+  @DisplayName("call error on value result \uD83D\uDCB0 \u2B95 \uD83D\uDCE3 \u2B95 \uD83D\uDCA3")
+  void callErrorOnValue() {
+    // GIVEN
+    @SuppressWarnings("unchecked")
+    Consumer<Object> onError = mock(Consumer.class);
+    Result<String, Object> result = Result.ofValue("expectedValue");
+
+    // WHEN
+    result.callOnError(onError);
+
+    // THEN
+    verifyNoInteractions(onError);
+  }
+
+  @Test
+  @DisplayName("call on error result \uD83D\uDCA3 \u2B95 \uD83D\uDCE3")
   void callOnError() {
     // GIVEN
     @SuppressWarnings("unchecked")
@@ -253,7 +284,38 @@ class ResultTest {
   }
 
   @Test
-  @DisplayName("map on value result \uD83D\uDDFA️ \uD83D\uDCB0")
+  @DisplayName("call success on error result \uD83D\uDCA3 \u2B95 \uD83D\uDCE3 \u2B95 \uD83D\uDCB0")
+  void callSuccessOnError() {
+    // GIVEN
+    @SuppressWarnings("unchecked")
+    Consumer<String> onSuccess = mock(Consumer.class);
+    Result<String, Object> result = Result.ofError(new Object());
+
+    // WHEN
+    result.callOnSuccess(onSuccess);
+
+    // THEN
+    verifyNoInteractions(onSuccess);
+  }
+
+  @Test
+  @DisplayName("call onError on error result \uD83D\uDCA3 \u2B95 \uD83D\uDCE3 \u2B95 \uD83D\uDCA3")
+  void callErrorOnError() {
+    // GIVEN
+    @SuppressWarnings("unchecked")
+    Consumer<Object> onError = mock(Consumer.class);
+    Object expectedErrorDescriptor = new Object();
+    Result<String, Object> result = Result.ofError(expectedErrorDescriptor);
+
+    // WHEN
+    result.callOnError(onError);
+
+    // THEN
+    verify(onError).accept(expectedErrorDescriptor);
+  }
+
+  @Test
+  @DisplayName("map on value result️ \uD83D\uDCB0 \u2B95 \uD83D\uDDFA")
   void mapOnValue() {
     // GIVEN
     Function<String, String> onSuccess = String::toUpperCase;
@@ -274,7 +336,7 @@ class ResultTest {
   }
 
   @Test
-  @DisplayName("map on error result \uD83D\uDDFA️ \uD83D\uDCA3")
+  @DisplayName("map on error result \uD83D\uDCA3 \u2B95 \uD83D\uDDFA️")
   void mapOnError() {
     // GIVEN
     @SuppressWarnings("unchecked")
@@ -295,7 +357,7 @@ class ResultTest {
   }
 
   @Test
-  @DisplayName("map value on value result \uD83D\uDCB0 \uD83D\uDDFA️ \uD83D\uDCB0")
+  @DisplayName("map value on value result \uD83D\uDCB0 \u2B95 \uD83D\uDDFA️ \u2B95 \uD83D\uDCB0")
   void mapValueOnValue() {
     // GIVEN
     Function<String, String> onSuccess = String::toUpperCase;
@@ -312,7 +374,7 @@ class ResultTest {
   }
 
   @Test
-  @DisplayName("map value on error result \uD83D\uDCB0 \uD83D\uDDFA️ \uD83D\uDCB0")
+  @DisplayName("map value on error result \uD83D\uDCA3 \u2B95  \uD83D\uDDFA️ \u2B95 \uD83D\uDCB0")
   void mapValueOnError() {
     // GIVEN
     @SuppressWarnings("unchecked")
@@ -332,7 +394,7 @@ class ResultTest {
   }
 
   @Test
-  @DisplayName("map error on value result \uD83D\uDCA3 \uD83D\uDDFA️ \uD83D\uDCB0")
+  @DisplayName("map error on value result \uD83D\uDCA3 \u2B95  \uD83D\uDDFA️ \u2B95  \uD83D\uDCB0")
   void mapErrorOnValue() {
     // GIVEN
     @SuppressWarnings("unchecked")
@@ -352,7 +414,7 @@ class ResultTest {
   }
 
   @Test
-  @DisplayName("map error on error result \uD83D\uDCA3 \uD83D\uDDFA️ \uD83D\uDCA3")
+  @DisplayName("map error on error result \uD83D\uDCA3 \u2B95 \uD83D\uDDFA️ \u2B95 \uD83D\uDCA3")
   void mapErrorOnError() {
     // GIVEN
     Object expectedErrorDescriptor = new Object();

@@ -3,6 +3,8 @@ package de.turing85.pure.result;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.function.*;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * This class represents a result from a method-/function-call, that may have complete successfully
@@ -17,6 +19,8 @@ import java.util.function.*;
  * @param <D>
  *     the type of the {@link #errorDescriptor()}.
  */
+@EqualsAndHashCode
+@ToString
 public class Result<V, D> {
   private final boolean hasValue;
   private final V value;
@@ -479,39 +483,5 @@ public class Result<V, D> {
       onError.accept(errorDescriptor().orElse(null));
     }
     return this;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public String toString() {
-    return "%s(value = [%s], errorDescriptor = [%s])".formatted(
-        getClass().getSimpleName(),
-        value,
-        errorDescriptor);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public boolean equals(Object that) {
-    if (this == that) {
-      return true;
-    }
-    if (that instanceof Result<?, ?> thatResult) {
-      return Objects.equals(this.value, thatResult.value) &&
-          Objects.equals(this.errorDescriptor, thatResult.errorDescriptor);
-    }
-    return false;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public int hashCode() {
-    return Objects.hash(value, errorDescriptor);
   }
 }
