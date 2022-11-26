@@ -106,6 +106,40 @@ class ResultTests {
     private final Function<String, String> toErrorMapper = value -> expectedErrorDescriptor;
 
     @Test
+    @DisplayName("has correct value \uD83D\uDCB0")
+    void hasCorrectValue() {
+      // GIVEN
+      String expectedValue = "expectedValue";
+
+      // WHEN
+      Result<String, Object> result = Result.ofValue(expectedValue);
+
+      // THEN
+      assertThat(result.hasValue()).isTrue();
+      assertThat(result.hasError()).isFalse();
+      assertThat(result.value().isPresent()).isTrue();
+      assertThat(result.errorDescriptor().isEmpty()).isTrue();
+      assertThat(result.value().get()).isEqualTo(expectedValue);
+    }
+
+    @Test
+    @DisplayName("has correct errorDescriptor \uD83D\uDCA3")
+    void hasCorrectErrorDescriptor() {
+      // GIVEN
+      Object expectedErrorDescriptor = "expectedErrorDescriptor";
+
+      // WHEN
+      Result<String, Object> result = Result.ofError(expectedErrorDescriptor);
+
+      // THEN
+      assertThat(result.hasValue()).isFalse();
+      assertThat(result.hasError()).isTrue();
+      assertThat(result.value().isEmpty()).isTrue();
+      assertThat(result.errorDescriptor().isPresent()).isTrue();
+      assertThat(result.errorDescriptor().get()).isEqualTo(expectedErrorDescriptor);
+    }
+
+    @Test
     @DisplayName("no error occurs \uD83C\uDF89")
     void noError() {
       // GIVEN
@@ -179,40 +213,6 @@ class ResultTests {
       assertThat(result.errorDescriptor().isPresent()).isTrue();
       assertThat(result.errorDescriptor().get()).isEqualTo(expectedErrorDescriptor);
     }
-  }
-
-  @Test
-  @DisplayName("has correct value \uD83D\uDCB0")
-  void hasCorrectValue() {
-    // GIVEN
-    String expectedValue = "expectedValue";
-
-    // WHEN
-    Result<String, Object> result = Result.ofValue(expectedValue);
-
-    // THEN
-    assertThat(result.hasValue()).isTrue();
-    assertThat(result.hasError()).isFalse();
-    assertThat(result.value().isPresent()).isTrue();
-    assertThat(result.errorDescriptor().isEmpty()).isTrue();
-    assertThat(result.value().get()).isEqualTo(expectedValue);
-  }
-
-  @Test
-  @DisplayName("has correct errorDescriptor \uD83D\uDCA3")
-  void hasCorrectErrorDescriptor() {
-    // GIVEN
-    Object expectedErrorDescriptor = "expectedErrorDescriptor";
-
-    // WHEN
-    Result<String, Object> result = Result.ofError(expectedErrorDescriptor);
-
-    // THEN
-    assertThat(result.hasValue()).isFalse();
-    assertThat(result.hasError()).isTrue();
-    assertThat(result.value().isEmpty()).isTrue();
-    assertThat(result.errorDescriptor().isPresent()).isTrue();
-    assertThat(result.errorDescriptor().get()).isEqualTo(expectedErrorDescriptor);
   }
 
   @Nested
