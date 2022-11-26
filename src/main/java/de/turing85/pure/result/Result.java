@@ -15,7 +15,7 @@ import lombok.ToString;
  * {@link #errorDescriptor()} is set.
  *
  * @param <V>
- *     the type of the {@link #value}.
+ *     the type of the {@link #value()}.
  * @param <D>
  *     the type of the {@link #errorDescriptor()}.
  */
@@ -58,7 +58,7 @@ public class Result<V, D> {
    * @param supplier
    *     the method to invoke.
    * @param errorCondition
-   *     the condition to decide whether the Result has a {@link #value} or an
+   *     the condition to decide whether the Result has a {@link #value()} or an
    *     {@link #errorDescriptor()}.
    * @param <V>
    *     The type of both {@link #value()} and {@link #errorDescriptor()}.
@@ -82,7 +82,7 @@ public class Result<V, D> {
    * @param supplier
    *     the method to invoke.
    * @param errorCondition
-   *     the condition to decide whether the Result has a {@link #value} or an
+   *     the condition to decide whether the Result has a {@link #value()} or an
    *     {@link #errorDescriptor()}.
    * @param toErrorDescriptorMapper
    *     mapper to map the return-value of {@code supplier} to an {@link #errorDescriptor()}.
@@ -120,7 +120,7 @@ public class Result<V, D> {
    * @param parameter
    *     the parameter to pass to {@code function}.
    * @param errorCondition
-   *     the condition to decide whether the Result has a {@link #value} or an
+   *     the condition to decide whether the Result has a {@link #value()} or an
    *     {@link #errorDescriptor()}.
    * @param <P>
    *     The type of the {@code parameter}.
@@ -151,7 +151,7 @@ public class Result<V, D> {
    * @param parameter
    *     the parameter to pass to {@code function}.
    * @param errorCondition
-   *     the condition to decide whether the Result has a {@link #value} or an
+   *     the condition to decide whether the Result has a {@link #value()} or an
    *     {@link #errorDescriptor()}.
    * @param toErrorDescriptorMapper
    *     mapper to map the return-value of {@code function} to an {@link #errorDescriptor()}.
@@ -192,7 +192,7 @@ public class Result<V, D> {
    * @param parameterSupplier
    *     the supplier for the parameter to pass to {@code function}.
    * @param errorCondition
-   *     the condition to decide whether the Result has a {@link #value} or an
+   *     the condition to decide whether the Result has a {@link #value()} or an
    *     {@link #errorDescriptor()}.
    * @param <P>
    *     The type of the {@code parameter}.
@@ -223,7 +223,7 @@ public class Result<V, D> {
    * @param parameterSupplier
    *     the supplier for the parameter to pass to {@code function}.
    * @param errorCondition
-   *     the condition to decide whether the Result has a {@link #value} or an
+   *     the condition to decide whether the Result has a {@link #value()} or an
    *     {@link #errorDescriptor()}.
    * @param toErrorDescriptorMapper
    *     mapper to map the return-value of {@code function} to an {@link #errorDescriptor()}.
