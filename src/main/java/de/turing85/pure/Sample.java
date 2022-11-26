@@ -7,7 +7,7 @@ public class Sample {
     for (int i = 0; i < 10; ++i) {
       int finalI = i;
       var result = Result.<Integer, Boolean>invoke(Sample::mayThrow, () -> finalI);
-      System.out.printf("Result = %s%n", result);
+      System.out.println(result);
       result
           .call(
               value -> System.out.printf(

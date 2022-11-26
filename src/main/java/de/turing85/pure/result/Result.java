@@ -22,6 +22,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class Result<V, D> {
+  @ToString.Exclude
   private final boolean hasValue;
   private final V value;
   private final D errorDescriptor;
