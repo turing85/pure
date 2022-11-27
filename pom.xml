@@ -18,13 +18,12 @@
         <module>jacoco-aggregation</module>
     </modules>
 
-    <url>https://github.com/turing85/pure</url>
-    <distributionManagement>
-        <site>
-            <id>www.github.com</id>
-            <url>${project.url}</url>
-        </site>
-    </distributionManagement>
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
 
     <properties>
         <!-- Plugin setup -->
@@ -35,7 +34,9 @@
         <maven-deploy-plugin.version>3.0.0</maven-deploy-plugin.version>
         <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
         <maven-project-info-reports-plugin.version>3.4.1</maven-project-info-reports-plugin.version>
+        <maven-release-plugin.version>3.0.0-M7</maven-release-plugin.version>
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
 
         <!-- Project setup -->
@@ -49,6 +50,7 @@
         <maven-javadoc-plugin.skip>false</maven-javadoc-plugin.skip>
         <maven-surefire-report-plugin.aggregate>true</maven-surefire-report-plugin.aggregate>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <git-ssh-url>git:ssh://github.com/turing85/pure.git</git-ssh-url>
 
         <!-- Dependency setup -->
         <junit-jupiter.version>5.9.1</junit-jupiter.version>
@@ -58,6 +60,28 @@
         <jacoco-maven-plugin.report-set>report-aggregate</jacoco-maven-plugin.report-set>
         <jacoco-maven-plugin.sample-exclude>**/*Sample*</jacoco-maven-plugin.sample-exclude>
     </properties>
+
+    <url>https://github.com/turing85/pure</url>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+        <site>
+            <id>www.github.com</id>
+            <url>${project.url}</url>
+        </site>
+    </distributionManagement>
+    <scm>
+        <connection>scm:${git-ssh-url}</connection>
+        <developerConnection>scm:${git-ssh-url}</developerConnection>
+        <url>${project.url}</url>
+        <tag>@{project.version}</tag>
+    </scm>
 
     <build>
         <plugins>
@@ -187,6 +211,19 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${maven-javadoc-plugin.version}</version>
                 <configuration>
@@ -232,6 +269,17 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${maven-release-plugin.version}</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <developmentVersion>999-SNAPSHOT</developmentVersion>
+                    <signTag>true</signTag>
+                    <tagNameFormat>@{project.version}</tagNameFormat>
+                </configuration>
             </plugin>
         </plugins>
     </build>
