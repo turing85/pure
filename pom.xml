@@ -35,6 +35,7 @@
         <maven-resource-plugin.version>3.2.0</maven-resource-plugin.version>
         <maven-javadoc-plugin.goal>aggregate</maven-javadoc-plugin.goal>
         <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
+        <maven-jxr-plugin.version>3.3.0</maven-jxr-plugin.version>
         <maven-project-info-reports-plugin.version>3.4.1</maven-project-info-reports-plugin.version>
         <maven-release-plugin.version>3.0.0-M7</maven-release-plugin.version>
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
@@ -49,6 +50,8 @@
         <jacoco-maven-plugin.sample-exclude>**/*Sample*</jacoco-maven-plugin.sample-exclude>
         <maven.compiler.release>17</maven.compiler.release>
         <maven-javadoc-plugin.skip>false</maven-javadoc-plugin.skip>
+        <maven-jxr-plugin.report>aggregate</maven-jxr-plugin.report>
+        <maven-jxr-plugin.report-test.goal>test-aggregate</maven-jxr-plugin.report-test.goal>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <git-ssh-url>git:ssh://github.com/turing85/pure.git</git-ssh-url>
 
@@ -321,6 +324,19 @@
                     <name>OWASP dependency check</name>
                     <goal>${dependency-check-maven.goal}</goal>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>${maven-jxr-plugin.version}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>${maven-jxr-plugin.report}</report>
+                            <report>${maven-jxr-plugin.report-test.goal}</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

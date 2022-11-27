@@ -14,6 +14,8 @@
         <dependency-check-maven.goal>check</dependency-check-maven.goal>
         <maven-javadoc-plugin.goal>javadoc</maven-javadoc-plugin.goal>
         <jacoco-maven-plugin.goal>report</jacoco-maven-plugin.goal>
+        <maven-jxr-plugin.report-jxr.goal>jxr-no-fork</maven-jxr-plugin.report-jxr.goal>
+        <maven-jxr-plugin.report-test.goal>test-jxr-no-fork</maven-jxr-plugin.report-test.goal>
     </properties>
 
     <artifactId>pure-implementation-parent</artifactId>
