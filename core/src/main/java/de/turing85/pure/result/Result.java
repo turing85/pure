@@ -291,7 +291,7 @@ public class Result<V, D> {
     return new Result<>(false, null, errorDescriptor);
   }
 
-  protected Result(boolean hasValue, V value, D errorDescriptor) {
+  private Result(boolean hasValue, V value, D errorDescriptor) {
     this.hasValue = hasValue;
     this.value = value;
     this.errorDescriptor = errorDescriptor;

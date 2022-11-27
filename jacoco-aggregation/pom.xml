@@ -14,27 +14,6 @@
     <name>pure :: jacoco-aggregation</name>
     <description>Module to aggregate all JaCoCo-reports into a global report.</description>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>report-aggregate</id>
-                        <goals>
-                            <goal>${jacoco-maven-plugin.report-set}</goal>
-                        </goals>
-                        <phase>package</phase>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/jacoco-reports</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
     <dependencyManagement>
         <dependencies>
             <dependency>

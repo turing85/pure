@@ -41,11 +41,12 @@
         <!-- Project setup -->
         <dependency-check-maven.report.goal>aggregate</dependency-check-maven.report.goal>
         <dependency-check-maven.skip>false</dependency-check-maven.skip>
-        <formatter-maven-plugin.skip>false</formatter-maven-plugin.skip>
+        <formatter-maven-plugin.skip>true</formatter-maven-plugin.skip>
         <jacoco-maven-plugin.aggregate.skip>false</jacoco-maven-plugin.aggregate.skip>
         <jacoco-maven-plugin.report.skip>false</jacoco-maven-plugin.report.skip>
         <maven.compiler.release>17</maven.compiler.release>
         <maven-javadoc-plugin.report.goal>aggregate</maven-javadoc-plugin.report.goal>
+        <maven-javadoc-plugin.skip>false</maven-javadoc-plugin.skip>
         <maven-surefire-report-plugin.aggregate>true</maven-surefire-report-plugin.aggregate>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -69,23 +70,13 @@
                         <goals>
                             <goal>check</goal>
                         </goals>
-                        <phase>validate</phase>
+                        <phase>verify</phase>
                         <configuration>
                             <skip>${dependency-check-maven.skip}</skip>
                             <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>${maven-site-plugin.version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>net.revelc.code.formatter</groupId>
@@ -109,9 +100,21 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
+                    <consoleOutputReporter
+                            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5ConsoleOutputReporter">
+                        <disable>false</disable>
+                        <encoding>UTF-8</encoding>
+                        <usePhrasedFileName>false</usePhrasedFileName>
+                    </consoleOutputReporter>
+                    <reportsDirectory>${project.build.directory}/reports/surefire</reportsDirectory>
                     <statelessTestsetReporter
                             implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
                         <disable>false</disable>
@@ -121,12 +124,6 @@
                         <usePhrasedTestCaseClassName>true</usePhrasedTestCaseClassName>
                         <usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
                     </statelessTestsetReporter>
-                    <consoleOutputReporter
-                            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5ConsoleOutputReporter">
-                        <disable>false</disable>
-                        <encoding>UTF-8</encoding>
-                        <usePhrasedFileName>false</usePhrasedFileName>
-                    </consoleOutputReporter>
                     <statelessTestsetInfoReporter
                             implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoReporter">
                         <disable>false</disable>
@@ -147,16 +144,80 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${jacoco-maven-plugin.aggregate.skip}</skip>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>jacoco-report</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>report</goal>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/reports/jacoco</outputDirectory>
+                            <rules>
+                                <rule>
+                                    <element>CLASS</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.80</minimum>
+                                        </limit>
+                                        <limit>
+                                            <counter>BRANCH</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.80</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                            <skip>${jacoco-maven-plugin.aggregate.skip}</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
                 <configuration>
-                    <excludes>
-                        <exclude>${jacoco-maven-plugin.sample-exclude}</exclude>
-                    </excludes>
+                    <additionalOptions>-package</additionalOptions>
+                    <destDir>javadoc</destDir>
+                    <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
+                    <show>public</show>
+                    <skip>${maven-javadoc-plugin.skip}</skip>
+                    <source>${maven.compiler.release}</source>
+                    <sourceFileExcludes>
+                        <exclude>de/turing85/pure/Sample.java</exclude>
+                    </sourceFileExcludes>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>${maven-javadoc-plugin.report.goal}</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>${maven-project-info-reports-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>${maven-site-plugin.version}</version>
             </plugin>
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
@@ -174,6 +235,42 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>disable-jacoco</id>
+            <activation>
+                <property>
+                    <name>disable-jacoco</name>
+                </property>
+            </activation>
+            <properties>
+                <jacoco-maven-plugin.aggregate.skip>true</jacoco-maven-plugin.aggregate.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>disable-dependency-checker</id>
+            <activation>
+                <property>
+                    <name>dispable-dependency-checker</name>
+                </property>
+            </activation>
+            <properties>
+                <dependency-check-maven.skip>true</dependency-check-maven.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>disable-javadoc</id>
+            <activation>
+                <property>
+                    <name>disable-javadoc</name>
+                </property>
+            </activation>
+            <properties>
+                <maven-javadoc-plugin.skip>true</maven-javadoc-plugin.skip>
+            </properties>
+        </profile>
+    </profiles>
+
     <reporting>
         <plugins>
             <plugin>
@@ -183,6 +280,7 @@
                 <configuration>
                     <name>OWASP dependency check</name>
                     <goal>${dependency-check-maven.report.goal}</goal>
+                    <reportOutputDirectory>${project.build.directory}/reports/dependency-check</reportOutputDirectory>
                 </configuration>
             </plugin>
             <plugin>
@@ -199,10 +297,11 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${maven-javadoc-plugin.version}</version>
                 <configuration>
-                    <show>public</show>
-                    <source>${maven.compiler.release}</source>
                     <additionalOptions>-package</additionalOptions>
                     <goal>${maven-javadoc-plugin.report.goal}</goal>
+                    <show>public</show>
+                    <source>${maven.compiler.release}</source>
+                    <sourceFileExcludes>de.turing85.pure.Sample</sourceFileExcludes>
                 </configuration>
             </plugin>
         </plugins>
