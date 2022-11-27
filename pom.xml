@@ -252,7 +252,7 @@
             <id>disable-dependency-checker</id>
             <activation>
                 <property>
-                    <name>dispable-dependency-checker</name>
+                    <name>disable-dependency-checker</name>
                 </property>
             </activation>
             <properties>
