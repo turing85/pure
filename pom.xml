@@ -72,7 +72,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>validate</goal>
+                            <goal>format</goal>
                         </goals>
                         <phase>validate</phase>
                     </execution>

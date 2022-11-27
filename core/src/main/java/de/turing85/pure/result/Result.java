@@ -10,14 +10,13 @@ import lombok.ToString;
  * This class represents a result from a method-/function-call, that may have complete successfully
  * or with an error.
  *
- * <p>If the call completed successfully, {@link #value()} is set, and {@link #errorDescriptor()}
- * is empty. If the call completed with an error, {@link #value()} is empty, and
+ * <p>
+ * If the call completed successfully, {@link #value()} is set, and {@link #errorDescriptor()} is
+ * empty. If the call completed with an error, {@link #value()} is empty, and
  * {@link #errorDescriptor()} is set.
  *
- * @param <V>
- *     the type of the {@link #value()}.
- * @param <D>
- *     the type of the {@link #errorDescriptor()}.
+ * @param <V> the type of the {@link #value()}.
+ * @param <D> the type of the {@link #errorDescriptor()}.
  */
 @EqualsAndHashCode
 @ToString
@@ -30,10 +29,8 @@ public class Result<V, D> {
   /**
    * Invoke a method that throws an exception to wrap the return-value into a {@link Result}.
    *
-   * @param callable
-   *     the method to wrap.
-   * @param <V>
-   *     the type of the return-value of the method to wrap.
+   * @param callable the method to wrap.
+   * @param <V> the type of the return-value of the method to wrap.
    *
    * @return the Result.
    */
@@ -49,19 +46,18 @@ public class Result<V, D> {
    * Invoke a method and, depending on the {@code errorCondition}, decide whether to return a
    * {@link Result} with a {@link #value()} or an {@link #errorDescriptor()}.
    *
-   * <p>In the {@link #value()}-case, the {@link #value()} is set to the return-value of the
+   * <p>
+   * In the {@link #value()}-case, the {@link #value()} is set to the return-value of the
    * {@code supplier}.
    *
-   * <p>In the {@link #errorDescriptor()} ()}-case, the {@link #value()} is set to the return-value
-   * of the {@code supplier}.
+   * <p>
+   * In the {@link #errorDescriptor()} ()}-case, the {@link #value()} is set to the return-value of
+   * the {@code supplier}.
    *
-   * @param supplier
-   *     the method to invoke.
-   * @param errorCondition
-   *     the condition to decide whether the Result has a {@link #value()} or an
-   *     {@link #errorDescriptor()}.
-   * @param <V>
-   *     The type of both {@link #value()} and {@link #errorDescriptor()}.
+   * @param supplier the method to invoke.
+   * @param errorCondition the condition to decide whether the Result has a {@link #value()} or an
+   *        {@link #errorDescriptor()}.
+   * @param <V> The type of both {@link #value()} and {@link #errorDescriptor()}.
    *
    * @return the {@link Result} of the invocation of {@code supplier}.
    */
@@ -73,29 +69,25 @@ public class Result<V, D> {
    * Invoke a method and, depending on the {@code errorCondition}, decide whether to return a
    * {@link Result} with a {@link #value()} or an {@link #errorDescriptor()}.
    *
-   * <p>In the {@link #value()}-case, the {@link #value()} is set to the return-value of the
+   * <p>
+   * In the {@link #value()}-case, the {@link #value()} is set to the return-value of the
    * {@code supplier}.
    *
-   * <p>In the {@link #errorDescriptor()} ()}-case, the value returned by
+   * <p>
+   * In the {@link #errorDescriptor()} ()}-case, the value returned by
    * {@code toErrorDescriptorMapper}, with the return-value of the {@code supplier} as parameter.
    *
-   * @param supplier
-   *     the method to invoke.
-   * @param errorCondition
-   *     the condition to decide whether the Result has a {@link #value()} or an
-   *     {@link #errorDescriptor()}.
-   * @param toErrorDescriptorMapper
-   *     mapper to map the return-value of {@code supplier} to an {@link #errorDescriptor()}.
-   * @param <V>
-   *     The type of {@link #value()}.
-   * @param <D>
-   *     The type of {@link #errorDescriptor()}.
+   * @param supplier the method to invoke.
+   * @param errorCondition the condition to decide whether the Result has a {@link #value()} or an
+   *        {@link #errorDescriptor()}.
+   * @param toErrorDescriptorMapper mapper to map the return-value of {@code supplier} to an
+   *        {@link #errorDescriptor()}.
+   * @param <V> The type of {@link #value()}.
+   * @param <D> The type of {@link #errorDescriptor()}.
    *
    * @return the {@link Result} of the invocation of {@code supplier}.
    */
-  public static <V, D> Result<V, D> invoke(
-      Supplier<V> supplier,
-      Predicate<V> errorCondition,
+  public static <V, D> Result<V, D> invoke(Supplier<V> supplier, Predicate<V> errorCondition,
       Function<V, D> toErrorDescriptorMapper) {
     V value = supplier.get();
     if (errorCondition.test(value)) {
@@ -109,29 +101,24 @@ public class Result<V, D> {
    * Invoke a method and, depending on the {@code errorCondition}, decide whether to return a
    * {@link Result} with a {@link #value()} or an {@link #errorDescriptor()}.
    *
-   * <p>In the {@link #value()}-case, the {@link #value()} is set to the return-value of the
+   * <p>
+   * In the {@link #value()}-case, the {@link #value()} is set to the return-value of the
    * {@code function}.
    *
-   * <p>In the {@link #errorDescriptor()} ()}-case, the {@link #value()} is set to the return-value
-   * of the {@code function}.
+   * <p>
+   * In the {@link #errorDescriptor()} ()}-case, the {@link #value()} is set to the return-value of
+   * the {@code function}.
    *
-   * @param function
-   *     the function to invoke.
-   * @param parameter
-   *     the parameter to pass to {@code function}.
-   * @param errorCondition
-   *     the condition to decide whether the Result has a {@link #value()} or an
-   *     {@link #errorDescriptor()}.
-   * @param <P>
-   *     The type of the {@code parameter}.
-   * @param <V>
-   *     The type of both {@link #value()} and {@link #errorDescriptor()}.
+   * @param function the function to invoke.
+   * @param parameter the parameter to pass to {@code function}.
+   * @param errorCondition the condition to decide whether the Result has a {@link #value()} or an
+   *        {@link #errorDescriptor()}.
+   * @param <P> The type of the {@code parameter}.
+   * @param <V> The type of both {@link #value()} and {@link #errorDescriptor()}.
    *
    * @return the {@link Result} of the invocation of {@code function}.
    */
-  public static <P, V> Result<V, V> invoke(
-      Function<P, V> function,
-      P parameter,
+  public static <P, V> Result<V, V> invoke(Function<P, V> function, P parameter,
       Predicate<V> errorCondition) {
     return invoke(function, parameter, errorCondition, Function.identity());
   }
@@ -140,35 +127,28 @@ public class Result<V, D> {
    * Invoke a method and, depending on the {@code errorCondition}, decide whether to return a
    * {@link Result} with a {@link #value()} or an {@link #errorDescriptor()}.
    *
-   * <p>In the {@link #value()}-case, the {@link #value()} is set to the return-value of the
+   * <p>
+   * In the {@link #value()}-case, the {@link #value()} is set to the return-value of the
    * {@code function}.
    *
-   * <p>In the {@link #errorDescriptor()} ()}-case, the value returned by
+   * <p>
+   * In the {@link #errorDescriptor()} ()}-case, the value returned by
    * {@code toErrorDescriptorMapper}, with the return-value of the {@code function} as parameter.
    *
-   * @param function
-   *     the function to invoke.
-   * @param parameter
-   *     the parameter to pass to {@code function}.
-   * @param errorCondition
-   *     the condition to decide whether the Result has a {@link #value()} or an
-   *     {@link #errorDescriptor()}.
-   * @param toErrorDescriptorMapper
-   *     mapper to map the return-value of {@code function} to an {@link #errorDescriptor()}.
-   * @param <P>
-   *     The type of the {@code parameter}.
-   * @param <V>
-   *     The type of {@link #value()}.
-   * @param <D>
-   *     The type of {@link #errorDescriptor()}.
+   * @param function the function to invoke.
+   * @param parameter the parameter to pass to {@code function}.
+   * @param errorCondition the condition to decide whether the Result has a {@link #value()} or an
+   *        {@link #errorDescriptor()}.
+   * @param toErrorDescriptorMapper mapper to map the return-value of {@code function} to an
+   *        {@link #errorDescriptor()}.
+   * @param <P> The type of the {@code parameter}.
+   * @param <V> The type of {@link #value()}.
+   * @param <D> The type of {@link #errorDescriptor()}.
    *
    * @return the {@link Result} of the invocation of {@code function}.
    */
-  public static <P, V, D> Result<V, D> invoke(
-      Function<P, V> function,
-      P parameter,
-      Predicate<V> errorCondition,
-      Function<V, D> toErrorDescriptorMapper) {
+  public static <P, V, D> Result<V, D> invoke(Function<P, V> function, P parameter,
+      Predicate<V> errorCondition, Function<V, D> toErrorDescriptorMapper) {
     V value = function.apply(parameter);
     if (errorCondition.test(value)) {
       return Result.ofError(toErrorDescriptorMapper.apply(value));
@@ -181,29 +161,24 @@ public class Result<V, D> {
    * Invoke a method and, depending on the {@code errorCondition}, decide whether to return a
    * {@link Result} with a {@link #value()} or an {@link #errorDescriptor()}.
    *
-   * <p>In the {@link #value()}-case, the {@link #value()} is set to the return-value of the
+   * <p>
+   * In the {@link #value()}-case, the {@link #value()} is set to the return-value of the
    * {@code function}.
    *
-   * <p>In the {@link #errorDescriptor()} ()}-case, the {@link #value()} is set to the return-value
-   * of the {@code function}.
+   * <p>
+   * In the {@link #errorDescriptor()} ()}-case, the {@link #value()} is set to the return-value of
+   * the {@code function}.
    *
-   * @param function
-   *     the function to invoke.
-   * @param parameterSupplier
-   *     the supplier for the parameter to pass to {@code function}.
-   * @param errorCondition
-   *     the condition to decide whether the Result has a {@link #value()} or an
-   *     {@link #errorDescriptor()}.
-   * @param <P>
-   *     The type of the {@code parameter}.
-   * @param <V>
-   *     The type of both {@link #value()} and {@link #errorDescriptor()}.
+   * @param function the function to invoke.
+   * @param parameterSupplier the supplier for the parameter to pass to {@code function}.
+   * @param errorCondition the condition to decide whether the Result has a {@link #value()} or an
+   *        {@link #errorDescriptor()}.
+   * @param <P> The type of the {@code parameter}.
+   * @param <V> The type of both {@link #value()} and {@link #errorDescriptor()}.
    *
    * @return the {@link Result} of the invocation of {@code function}.
    */
-  public static <P, V> Result<V, V> invoke(
-      Function<P, V> function,
-      Supplier<P> parameterSupplier,
+  public static <P, V> Result<V, V> invoke(Function<P, V> function, Supplier<P> parameterSupplier,
       Predicate<V> errorCondition) {
     return invoke(function, parameterSupplier.get(), errorCondition);
   }
@@ -212,34 +187,28 @@ public class Result<V, D> {
    * Invoke a method and, depending on the {@code errorCondition}, decide whether to return a
    * {@link Result} with a {@link #value()} or an {@link #errorDescriptor()}.
    *
-   * <p>In the {@link #value()}-case, the {@link #value()} is set to the return-value of the
+   * <p>
+   * In the {@link #value()}-case, the {@link #value()} is set to the return-value of the
    * {@code function}.
    *
-   * <p>In the {@link #errorDescriptor()} ()}-case, the value returned by
+   * <p>
+   * In the {@link #errorDescriptor()} ()}-case, the value returned by
    * {@code toErrorDescriptorMapper}, with the return-value of the {@code function} as parameter.
    *
-   * @param function
-   *     the function to invoke.
-   * @param parameterSupplier
-   *     the supplier for the parameter to pass to {@code function}.
-   * @param errorCondition
-   *     the condition to decide whether the Result has a {@link #value()} or an
-   *     {@link #errorDescriptor()}.
-   * @param toErrorDescriptorMapper
-   *     mapper to map the return-value of {@code function} to an {@link #errorDescriptor()}.
-   * @param <P>
-   *     The type of the {@code parameter}.
-   * @param <V>
-   *     The type of {@link #value()}.
-   * @param <D>
-   *     The type of {@link #errorDescriptor()}.
+   * @param function the function to invoke.
+   * @param parameterSupplier the supplier for the parameter to pass to {@code function}.
+   * @param errorCondition the condition to decide whether the Result has a {@link #value()} or an
+   *        {@link #errorDescriptor()}.
+   * @param toErrorDescriptorMapper mapper to map the return-value of {@code function} to an
+   *        {@link #errorDescriptor()}.
+   * @param <P> The type of the {@code parameter}.
+   * @param <V> The type of {@link #value()}.
+   * @param <D> The type of {@link #errorDescriptor()}.
    *
    * @return the {@link Result} of the invocation of {@code function}.
    */
-  public static <P, V, D> Result<V, D> invoke(
-      Function<P, V> function,
-      Supplier<P> parameterSupplier,
-      Predicate<V> errorCondition,
+  public static <P, V, D> Result<V, D> invoke(Function<P, V> function,
+      Supplier<P> parameterSupplier, Predicate<V> errorCondition,
       Function<V, D> toErrorDescriptorMapper) {
     return invoke(function, parameterSupplier.get(), errorCondition, toErrorDescriptorMapper);
   }
@@ -248,25 +217,22 @@ public class Result<V, D> {
    * Invoke a method and, depending on the {@code errorCondition}, decide whether to return a
    * {@link Result} with a {@link #value()} or an {@link #errorDescriptor()}.
    *
-   * <p>In the {@link #value()}-case, the {@link #value()} is set to the return-value of the
+   * <p>
+   * In the {@link #value()}-case, the {@link #value()} is set to the return-value of the
    * {@code function}.
    *
-   * <p>In the {@link #errorDescriptor()} ()}-case, the {@link #errorDescriptor()} is set to the
+   * <p>
+   * In the {@link #errorDescriptor()} ()}-case, the {@link #errorDescriptor()} is set to the
    * {@link Exception} thrown by the invocation of {@code function}.
    *
-   * @param function
-   *     the function to invoke.
-   * @param parameterSupplier
-   *     the supplier for the parameter to pass to {@code function}.
-   * @param <P>
-   *     The type of the {@code parameter}.
-   * @param <V>
-   *     The type of {@link #value()}.
+   * @param function the function to invoke.
+   * @param parameterSupplier the supplier for the parameter to pass to {@code function}.
+   * @param <P> The type of the {@code parameter}.
+   * @param <V> The type of {@link #value()}.
    *
    * @return the {@link Result} of the invocation of {@code function}.
    */
-  public static <P, V> Result<V, Exception> invoke(
-      ThrowingFunction<P, V> function,
+  public static <P, V> Result<V, Exception> invoke(ThrowingFunction<P, V> function,
       Supplier<P> parameterSupplier) {
     return invoke(function, parameterSupplier.get());
   }
@@ -275,20 +241,18 @@ public class Result<V, D> {
    * Invoke a method and, depending on the {@code errorCondition}, decide whether to return a
    * {@link Result} with a {@link #value()} or an {@link #errorDescriptor()}.
    *
-   * <p>In the {@link #value()}-case, the {@link #value()} is set to the return-value of the
+   * <p>
+   * In the {@link #value()}-case, the {@link #value()} is set to the return-value of the
    * {@code function}.
    *
-   * <p>In the {@link #errorDescriptor()} ()}-case, the {@link #errorDescriptor()} is set to the
+   * <p>
+   * In the {@link #errorDescriptor()} ()}-case, the {@link #errorDescriptor()} is set to the
    * {@link Exception} thrown by the invocation of {@code function}.
    *
-   * @param function
-   *     the function to invoke.
-   * @param parameter
-   *     the parameter to pass to {@code function}.
-   * @param <P>
-   *     The type of the {@code parameter}.
-   * @param <V>
-   *     The type of {@link #value()}.
+   * @param function the function to invoke.
+   * @param parameter the parameter to pass to {@code function}.
+   * @param <P> The type of the {@code parameter}.
+   * @param <V> The type of {@link #value()}.
    *
    * @return the {@link Result} of the invocation of {@code function}.
    */
@@ -303,12 +267,9 @@ public class Result<V, D> {
   /**
    * Factory-method.
    *
-   * @param value
-   *     the value.
-   * @param <V>
-   *     the type of the value.
-   * @param <D>
-   *     the type of the error-descriptor.
+   * @param value the value.
+   * @param <V> the type of the value.
+   * @param <D> the type of the error-descriptor.
    *
    * @return a Result, representing the value (and a possible error that did not occur).
    */
@@ -319,15 +280,12 @@ public class Result<V, D> {
   /**
    * Factory-method.
    *
-   * @param errorDescriptor
-   *     the errorDescriptor.
-   * @param <V>
-   *     the type of the value.
-   * @param <D>
-   *     the type of the errorDescriptor-errorDescriptor.
+   * @param errorDescriptor the errorDescriptor.
+   * @param <V> the type of the value.
+   * @param <D> the type of the errorDescriptor-errorDescriptor.
    *
    * @return a Result, representing the errorDescriptor (and a value, that was not obtained, due to
-   * the error that occurred).
+   *         the error that occurred).
    */
   public static <V, D> Result<V, D> ofError(D errorDescriptor) {
     return new Result<>(false, null, errorDescriptor);
@@ -378,16 +336,16 @@ public class Result<V, D> {
   /**
    * Convenience-method to register callbacks for success- and error-callback.
    *
-   * <p>If the {@link #value()} might be empty, the {@code onSuccess}-callback should tolerate
+   * <p>
+   * If the {@link #value()} might be empty, the {@code onSuccess}-callback should tolerate
    * {@code null}-values.
    *
-   * <p>If the {@link #errorDescriptor()} might be empty, the {@code onError}-callback should
-   * tolerate {@code null}-values.
+   * <p>
+   * If the {@link #errorDescriptor()} might be empty, the {@code onError}-callback should tolerate
+   * {@code null}-values.
    *
-   * @param onSuccess
-   *     success-callback.
-   * @param onError
-   *     error-callback.
+   * @param onSuccess success-callback.
+   * @param onError error-callback.
    *
    * @return {@code this}, for chaining.
    */
@@ -405,10 +363,8 @@ public class Result<V, D> {
   /**
    * Mapper-function to transform a {@code Result<V, D>} into a {@code Result<W, D>}.
    *
-   * @param valueMapper
-   *     the value-mapper.
-   * @param <W>
-   *     the {@link #value()}-type for the mapped {@link Result}.
+   * @param valueMapper the value-mapper.
+   * @param <W> the {@link #value()}-type for the mapped {@link Result}.
    *
    * @return the mapped result
    */
@@ -419,10 +375,8 @@ public class Result<V, D> {
   /**
    * Mapper-function to transform a {@code Result<V, D>} into a {@code Result<V, E>}.
    *
-   * @param errorDescriptorMapper
-   *     the errorDescriptor-mapper.
-   * @param <E>
-   *     the {@link #errorDescriptor()}-type for the mapped {@link Result}.
+   * @param errorDescriptorMapper the errorDescriptor-mapper.
+   * @param <E> the {@link #errorDescriptor()}-type for the mapped {@link Result}.
    *
    * @return the mapped result
    */
@@ -433,19 +387,14 @@ public class Result<V, D> {
   /**
    * Mapper-function to transform a {@code Result<V, D>} into a {@code Result<W, E>}.
    *
-   * @param valueMapper
-   *     the value-mapper.
-   * @param errorDescriptionMapper
-   *     the errorDescription-mapper.
-   * @param <W>
-   *     the {@link #value()}-type for the mapped {@link Result}.
-   * @param <E>
-   *     the {@link #errorDescriptor()}-type for the mapped {@link Result}.
+   * @param valueMapper the value-mapper.
+   * @param errorDescriptionMapper the errorDescription-mapper.
+   * @param <W> the {@link #value()}-type for the mapped {@link Result}.
+   * @param <E> the {@link #errorDescriptor()}-type for the mapped {@link Result}.
    *
    * @return the mapped result
    */
-  public <W, E> Result<W, E> map(
-      Function<V, W> valueMapper,
+  public <W, E> Result<W, E> map(Function<V, W> valueMapper,
       Function<D, E> errorDescriptionMapper) {
     Objects.requireNonNull(valueMapper);
     Objects.requireNonNull(errorDescriptionMapper);
@@ -459,8 +408,7 @@ public class Result<V, D> {
   /**
    * Convenience-method to register callbacks for success-case.
    *
-   * @param onSuccess
-   *     success-callback.
+   * @param onSuccess success-callback.
    *
    * @return {@code this}, for chaining.
    */
@@ -476,11 +424,11 @@ public class Result<V, D> {
   /**
    * Convenience-method to register callbacks for error-case.
    *
-   * <p>If the {@link #errorDescriptor()} might be empty, the {@code onError}-callback should
-   * tolerate {@code null}-values.
+   * <p>
+   * If the {@link #errorDescriptor()} might be empty, the {@code onError}-callback should tolerate
+   * {@code null}-values.
    *
-   * @param onError
-   *     error-callback.
+   * @param onError error-callback.
    *
    * @return {@code this}, for chaining.
    */
