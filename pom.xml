@@ -196,6 +196,7 @@
                     <show>public</show>
                     <skip>${maven-javadoc-plugin.skip}</skip>
                     <source>${maven.compiler.release}</source>
+                    <!-- TODO: remove when samples are written -->
                     <sourceFileExcludes>
                         <exclude>de/turing85/pure/Sample.java</exclude>
                     </sourceFileExcludes>
@@ -301,7 +302,10 @@
                     <goal>${maven-javadoc-plugin.report.goal}</goal>
                     <show>public</show>
                     <source>${maven.compiler.release}</source>
-                    <sourceFileExcludes>de.turing85.pure.Sample</sourceFileExcludes>
+                    <!-- TODO: remove when samples are written -->
+                    <sourceFileExcludes>
+                        <exclude>de/turing85/pure/Sample.java</exclude>
+                    </sourceFileExcludes>
                 </configuration>
             </plugin>
         </plugins>
