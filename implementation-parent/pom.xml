@@ -10,6 +10,12 @@
         <version>999-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <dependency-check-maven.goal>check</dependency-check-maven.goal>
+        <maven-javadoc-plugin.goal>javadoc</maven-javadoc-plugin.goal>
+        <jacoco-maven-plugin.goal>report</jacoco-maven-plugin.goal>
+    </properties>
+
     <artifactId>pure-implementation-parent</artifactId>
     <name>pure :: implementation parent</name>
     <description>Parent-module for all modules providing implementations.</description>
@@ -17,6 +23,26 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>net.revelc.code.formatter</groupId>
+                <artifactId>formatter-maven-plugin</artifactId>
+                <version>${formatter-maven-plugin.version}</version>
+                <configuration>
+                    <lineEnding>LF</lineEnding>
+                    <configFile>${maven.multiModuleProjectDirectory}/google-style.xml</configFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <skip>${formatter-maven-plugin.skip}</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -28,26 +54,6 @@
                             <goal>report</goal>
                             <goal>check</goal>
                         </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/jacoco</outputDirectory>
-                            <rules>
-                                <rule>
-                                    <element>CLASS</element>
-                                    <limits>
-                                        <limit>
-                                            <counter>LINE</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>0.80</minimum>
-                                        </limit>
-                                        <limit>
-                                            <counter>BRANCH</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>0.80</minimum>
-                                        </limit>
-                                    </limits>
-                                </rule>
-                            </rules>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -114,15 +120,6 @@
     <reporting>
         <plugins>
             <plugin>
-                <groupId>org.owasp</groupId>
-                <artifactId>dependency-check-maven</artifactId>
-                <version>${dependency-check-maven.version}</version>
-                <configuration>
-                    <name>OWASP dependency check</name>
-                    <goal>check</goal>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
@@ -147,21 +144,6 @@
                     <excludes>
                         <exclude>${jacoco-maven-plugin.sample-exclude}</exclude>
                     </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${maven-javadoc-plugin.version}</version>
-                <configuration>
-                    <additionalOptions>-package</additionalOptions>
-                    <goal>javadoc</goal>
-                    <show>public</show>
-                    <source>${maven.compiler.release}</source>
-                    <!-- TODO: remove when samples are written -->
-                    <sourceFileExcludes>
-                        <exclude>de/turing85/pure/Sample.java</exclude>
-                    </sourceFileExcludes>
                 </configuration>
             </plugin>
         </plugins>
