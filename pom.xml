@@ -40,15 +40,12 @@
         <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
 
         <!-- Project setup -->
-        <dependency-check-maven.report.goal>aggregate</dependency-check-maven.report.goal>
         <dependency-check-maven.skip>false</dependency-check-maven.skip>
         <formatter-maven-plugin.skip>true</formatter-maven-plugin.skip>
-        <jacoco-maven-plugin.aggregate.skip>false</jacoco-maven-plugin.aggregate.skip>
-        <jacoco-maven-plugin.report.skip>false</jacoco-maven-plugin.report.skip>
+        <jacoco-maven-plugin.skip>false</jacoco-maven-plugin.skip>
+        <jacoco-maven-plugin.sample-exclude>**/*Sample*</jacoco-maven-plugin.sample-exclude>
         <maven.compiler.release>17</maven.compiler.release>
-        <maven-javadoc-plugin.report.goal>aggregate</maven-javadoc-plugin.report.goal>
         <maven-javadoc-plugin.skip>false</maven-javadoc-plugin.skip>
-        <maven-surefire-report-plugin.aggregate>true</maven-surefire-report-plugin.aggregate>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <git-ssh-url>git:ssh://github.com/turing85/pure.git</git-ssh-url>
 
@@ -57,8 +54,6 @@
         <lombok.version>1.18.24</lombok.version>
         <mockito.version>4.9.0</mockito.version>
         <truth.version>1.1.1</truth.version>
-        <jacoco-maven-plugin.report-set>report-aggregate</jacoco-maven-plugin.report-set>
-        <jacoco-maven-plugin.sample-exclude>**/*Sample*</jacoco-maven-plugin.sample-exclude>
     </properties>
 
     <url>https://github.com/turing85/pure</url>
@@ -85,23 +80,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.owasp</groupId>
-                <artifactId>dependency-check-maven</artifactId>
-                <version>${dependency-check-maven.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <phase>verify</phase>
-                        <configuration>
-                            <skip>${dependency-check-maven.skip}</skip>
-                            <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>net.revelc.code.formatter</groupId>
                 <artifactId>formatter-maven-plugin</artifactId>
@@ -138,7 +116,6 @@
                         <encoding>UTF-8</encoding>
                         <usePhrasedFileName>false</usePhrasedFileName>
                     </consoleOutputReporter>
-                    <reportsDirectory>${project.build.directory}/reports/surefire</reportsDirectory>
                     <statelessTestsetReporter
                             implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
                         <disable>false</disable>
@@ -168,43 +145,34 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco-maven-plugin.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>${jacoco-maven-plugin.sample-exclude}</exclude>
+                    </excludes>
+                    <skip>${jacoco-maven-plugin.skip}</skip>
+                </configuration>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
-                        <configuration>
-                            <skip>${jacoco-maven-plugin.aggregate.skip}</skip>
-                        </configuration>
                     </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>${dependency-check-maven.version}</version>
+                <executions>
                     <execution>
-                        <id>jacoco-report</id>
-                        <phase>package</phase>
                         <goals>
-                            <goal>report</goal>
                             <goal>check</goal>
                         </goals>
+                        <phase>verify</phase>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/reports/jacoco</outputDirectory>
-                            <rules>
-                                <rule>
-                                    <element>CLASS</element>
-                                    <limits>
-                                        <limit>
-                                            <counter>LINE</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>0.80</minimum>
-                                        </limit>
-                                        <limit>
-                                            <counter>BRANCH</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>0.80</minimum>
-                                        </limit>
-                                    </limits>
-                                </rule>
-                            </rules>
-                            <skip>${jacoco-maven-plugin.aggregate.skip}</skip>
+                            <skip>${dependency-check-maven.skip}</skip>
+                            <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
                         </configuration>
                     </execution>
                 </executions>
@@ -241,7 +209,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>${maven-javadoc-plugin.report.goal}</goal>
+                            <goal>javadoc</goal>
                         </goals>
                         <phase>package</phase>
                     </execution>
@@ -293,7 +261,7 @@
                 </property>
             </activation>
             <properties>
-                <jacoco-maven-plugin.aggregate.skip>true</jacoco-maven-plugin.aggregate.skip>
+                <jacoco-maven-plugin.skip>true</jacoco-maven-plugin.skip>
             </properties>
         </profile>
         <profile>
@@ -328,8 +296,7 @@
                 <version>${dependency-check-maven.version}</version>
                 <configuration>
                     <name>OWASP dependency check</name>
-                    <goal>${dependency-check-maven.report.goal}</goal>
-                    <reportOutputDirectory>${project.build.directory}/reports/dependency-check</reportOutputDirectory>
+                    <goal>aggregate</goal>
                 </configuration>
             </plugin>
             <plugin>
@@ -337,7 +304,7 @@
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
-                    <aggregate>${maven-surefire-report-plugin.aggregate}</aggregate>
+                    <aggregate>true</aggregate>
                     <linkXRef>true</linkXRef>
                 </configuration>
             </plugin>
@@ -347,7 +314,7 @@
                 <version>${maven-javadoc-plugin.version}</version>
                 <configuration>
                     <additionalOptions>-package</additionalOptions>
-                    <goal>${maven-javadoc-plugin.report.goal}</goal>
+                    <goal>aggregate</goal>
                     <show>public</show>
                     <source>${maven.compiler.release}</source>
                     <!-- TODO: remove when samples are written -->

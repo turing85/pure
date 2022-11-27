@@ -15,13 +15,44 @@
     <description>Parent-module for all modules providing implementations.</description>
     <packaging>pom</packaging>
 
-    <properties>
-        <dependency-check-maven.report.goal>check</dependency-check-maven.report.goal>
-        <jacoco-maven-plugin.aggregate.skip>true</jacoco-maven-plugin.aggregate.skip>
-        <maven-javadoc-plugin.report.goal>javadoc</maven-javadoc-plugin.report.goal>
-        <jacoco-maven-plugin.report.skip>false</jacoco-maven-plugin.report.skip>
-        <maven-surefire-report-plugin.aggregate>false</maven-surefire-report-plugin.aggregate>
-    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>jacoco-report</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>report</goal>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/jacoco</outputDirectory>
+                            <rules>
+                                <rule>
+                                    <element>CLASS</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.80</minimum>
+                                        </limit>
+                                        <limit>
+                                            <counter>BRANCH</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.80</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencyManagement>
         <dependencies>
@@ -83,6 +114,24 @@
     <reporting>
         <plugins>
             <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>${dependency-check-maven.version}</version>
+                <configuration>
+                    <name>OWASP dependency check</name>
+                    <goal>check</goal>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <aggregate>false</aggregate>
+                    <linkXRef>true</linkXRef>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco-maven-plugin.version}</version>
@@ -98,6 +147,21 @@
                     <excludes>
                         <exclude>${jacoco-maven-plugin.sample-exclude}</exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <configuration>
+                    <additionalOptions>-package</additionalOptions>
+                    <goal>javadoc</goal>
+                    <show>public</show>
+                    <source>${maven.compiler.release}</source>
+                    <!-- TODO: remove when samples are written -->
+                    <sourceFileExcludes>
+                        <exclude>de/turing85/pure/Sample.java</exclude>
+                    </sourceFileExcludes>
                 </configuration>
             </plugin>
         </plugins>
