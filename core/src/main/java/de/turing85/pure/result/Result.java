@@ -388,6 +388,8 @@ public class Result<V, D> {
    *     success-callback.
    * @param onError
    *     error-callback.
+   *
+   * @return {@code this}, for chaining.
    */
   public Result<V, D> call(Consumer<V> onSuccess, Consumer<D> onError) {
     Objects.requireNonNull(onSuccess);
@@ -459,6 +461,8 @@ public class Result<V, D> {
    *
    * @param onSuccess
    *     success-callback.
+   *
+   * @return {@code this}, for chaining.
    */
   public Result<V, D> callOnSuccess(Consumer<V> onSuccess) {
     Objects.requireNonNull(onSuccess);
@@ -477,6 +481,8 @@ public class Result<V, D> {
    *
    * @param onError
    *     error-callback.
+   *
+   * @return {@code this}, for chaining.
    */
   public Result<V, D> callOnError(Consumer<D> onError) {
     Objects.requireNonNull(onError);

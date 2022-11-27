@@ -2,7 +2,7 @@ package de.turing85.pure;
 
 import de.turing85.pure.result.Result;
 
-public class Sample {
+class Sample {
   public static void main(String... args) {
     for (int i = 0; i < 10; ++i) {
       int finalI = i;

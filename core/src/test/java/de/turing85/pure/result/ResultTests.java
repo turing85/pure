@@ -148,8 +148,7 @@ class ResultTests {
       Supplier<Boolean> parameterProvider = () -> true;
 
       // WHEN
-      var result =
-          Result.invoke(function, parameterProvider, errorCondition, toErrorMapper);
+      var result = Result.invoke(function, parameterProvider, errorCondition, toErrorMapper);
 
       // THEN
       assertThat(result.value().isPresent()).isTrue();
@@ -165,8 +164,7 @@ class ResultTests {
       Supplier<Boolean> parameterProvider = () -> false;
 
       // WHEN
-      var result =
-          Result.invoke(function, parameterProvider, errorCondition);
+      var result = Result.invoke(function, parameterProvider, errorCondition);
 
       // THEN
       assertThat(result.value().isEmpty()).isTrue();
@@ -206,8 +204,7 @@ class ResultTests {
       };
 
       // WHEN
-      var result =
-          Result.invoke(function, parameterProvider);
+      var result = Result.invoke(function, parameterProvider);
 
       // THEN
       assertThat(result.value().isEmpty()).isTrue();
