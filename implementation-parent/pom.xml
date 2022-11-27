@@ -16,9 +16,11 @@
     <packaging>pom</packaging>
 
     <properties>
-        <maven-surefire-report-plugin.aggregate>false</maven-surefire-report-plugin.aggregate>
+        <dependency-check-maven.report.goal>check</dependency-check-maven.report.goal>
         <jacoco-maven-plugin.aggregate.skip>true</jacoco-maven-plugin.aggregate.skip>
+        <maven-javadoc-plugin.report.goal>javadoc</maven-javadoc-plugin.report.goal>
         <jacoco-maven-plugin.report.skip>false</jacoco-maven-plugin.report.skip>
+        <maven-surefire-report-plugin.aggregate>false</maven-surefire-report-plugin.aggregate>
     </properties>
 
     <build>
@@ -126,16 +128,6 @@
 
     <reporting>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${maven-javadoc-plugin.version}</version>
-                <configuration>
-                    <show>public</show>
-                    <source>${maven.compiler.release}</source>
-                    <additionalOptions>-package</additionalOptions>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
