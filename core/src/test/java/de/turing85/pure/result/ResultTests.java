@@ -221,7 +221,7 @@ class ResultTests {
   @DisplayName("Call tests")
   class CallTests {
     @Test
-    @DisplayName("call on value result \uD83D\uDCB0 \u2B95 \uD83D\uDCE3")
+    @DisplayName("call on value result \uD83D\uDCB0 ⮕ \uD83D\uDCE3")
     void callOnValue() {
       // GIVEN
       @SuppressWarnings("unchecked")
@@ -240,7 +240,7 @@ class ResultTests {
     }
 
     @Test
-    @DisplayName("call success on value result \uD83D\uDCB0 \u2B95  \uD83D\uDCE3 \u2B95 \uD83D\uDCB0")
+    @DisplayName("call success on value result \uD83D\uDCB0 ⮕ \uD83D\uDCE3 ⮕ \uD83D\uDCB0")
     void callSuccessOnValue() {
       // GIVEN
       @SuppressWarnings("unchecked")
@@ -256,7 +256,7 @@ class ResultTests {
     }
 
     @Test
-    @DisplayName("call error on value result \uD83D\uDCB0 \u2B95 \uD83D\uDCE3 \u2B95 \uD83D\uDCA3")
+    @DisplayName("call error on value result \uD83D\uDCB0 ⮕ \uD83D\uDCE3 ⮕ \uD83D\uDCA3")
     void callErrorOnValue() {
       // GIVEN
       @SuppressWarnings("unchecked")
@@ -271,7 +271,7 @@ class ResultTests {
     }
 
     @Test
-    @DisplayName("call on error result \uD83D\uDCA3 \u2B95 \uD83D\uDCE3")
+    @DisplayName("call on error result \uD83D\uDCA3 ⮕ \uD83D\uDCE3")
     void callOnError() {
       // GIVEN
       @SuppressWarnings("unchecked")
@@ -290,7 +290,7 @@ class ResultTests {
     }
 
     @Test
-    @DisplayName("call success on error result \uD83D\uDCA3 \u2B95 \uD83D\uDCE3 \u2B95 \uD83D\uDCB0")
+    @DisplayName("call success on error result \uD83D\uDCA3 ⮕ \uD83D\uDCE3 ⮕ \uD83D\uDCB0")
     void callSuccessOnError() {
       // GIVEN
       @SuppressWarnings("unchecked")
@@ -305,7 +305,7 @@ class ResultTests {
     }
 
     @Test
-    @DisplayName("call onError on error result \uD83D\uDCA3 \u2B95 \uD83D\uDCE3 \u2B95 \uD83D\uDCA3")
+    @DisplayName("call onError on error result \uD83D\uDCA3 ⮕ \uD83D\uDCE3 ⮕ \uD83D\uDCA3")
     void callErrorOnError() {
       // GIVEN
       @SuppressWarnings("unchecked")
@@ -325,7 +325,7 @@ class ResultTests {
   @DisplayName("Map tests")
   class MapTests {
     @Test
-    @DisplayName("map on value result️ \uD83D\uDCB0 \u2B95 \uD83D\uDDFA")
+    @DisplayName("map on value result️ \uD83D\uDCB0 ⮕ \uD83D\uDDFA️")
     void mapOnValue() {
       // GIVEN
       Function<String, String> onSuccess = String::toUpperCase;
@@ -346,7 +346,7 @@ class ResultTests {
     }
 
     @Test
-    @DisplayName("map on error result \uD83D\uDCA3 \u2B95 \uD83D\uDDFA️")
+    @DisplayName("map on error result \uD83D\uDCA3 ⮕ \uD83D\uDDFA️️")
     void mapOnError() {
       // GIVEN
       @SuppressWarnings("unchecked")
@@ -367,7 +367,7 @@ class ResultTests {
     }
 
     @Test
-    @DisplayName("map value on value result \uD83D\uDCB0 \u2B95 \uD83D\uDDFA️ \u2B95 \uD83D\uDCB0")
+    @DisplayName("map value on value result \uD83D\uDCB0 ⮕ \uD83D\uDDFA️️ ⮕ \uD83D\uDCB0")
     void mapValueOnValue() {
       // GIVEN
       Function<String, String> onSuccess = String::toUpperCase;
@@ -384,7 +384,7 @@ class ResultTests {
     }
 
     @Test
-    @DisplayName("map value on error result \uD83D\uDCA3 \u2B95  \uD83D\uDDFA️ \u2B95 \uD83D\uDCB0")
+    @DisplayName("map value on error result \uD83D\uDCA3 ⮕  \uD83D\uDDFA️️ ⮕ \uD83D\uDCB0")
     void mapValueOnError() {
       // GIVEN
       @SuppressWarnings("unchecked")
@@ -404,7 +404,7 @@ class ResultTests {
     }
 
     @Test
-    @DisplayName("map error on value result \uD83D\uDCA3 \u2B95  \uD83D\uDDFA️ \u2B95  \uD83D\uDCB0")
+    @DisplayName("map error on value result \uD83D\uDCA3 ⮕  \uD83D\uDDFA️️ ⮕  \uD83D\uDCB0")
     void mapErrorOnValue() {
       // GIVEN
       @SuppressWarnings("unchecked")
@@ -424,7 +424,7 @@ class ResultTests {
     }
 
     @Test
-    @DisplayName("map error on error result \uD83D\uDCA3 \u2B95 \uD83D\uDDFA️ \u2B95 \uD83D\uDCA3")
+    @DisplayName("map error on error result \uD83D\uDCA3 ⮕ \uD83D\uDDFA️️ ⮕ \uD83D\uDCA3")
     void mapErrorOnError() {
       // GIVEN
       Object expectedErrorDescriptor = new Object();
