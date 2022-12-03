@@ -52,6 +52,7 @@
         <maven-javadoc-plugin.skip>false</maven-javadoc-plugin.skip>
         <maven-jxr-plugin.report>aggregate</maven-jxr-plugin.report>
         <maven-jxr-plugin.report-test.goal>test-aggregate</maven-jxr-plugin.report-test.goal>
+        <maven-site-plugin.stage.skip>false</maven-site-plugin.stage.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <git-ssh-url>git:ssh://github.com/turing85/pure.git</git-ssh-url>
 
@@ -223,13 +224,20 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>${maven-project-info-reports-plugin.version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>${maven-site-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>site-stage</id>
+                        <goals>
+                            <goal>stage</goal>
+                        </goals>
+                        <phase>site</phase>
+                        <configuration>
+                            <skip>${maven-site-plugin.stage.skip}</skip>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
@@ -303,10 +311,26 @@
                 <maven-javadoc-plugin.skip>true</maven-javadoc-plugin.skip>
             </properties>
         </profile>
+        <profile>
+            <id>disable-site-stage</id>
+            <activation>
+                <property>
+                    <name>disable-site-stage</name>
+                </property>
+            </activation>
+            <properties>
+                <maven-site-plugin.stage.skip>true</maven-site-plugin.stage.skip>
+            </properties>
+        </profile>
     </profiles>
 
     <reporting>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>${maven-project-info-reports-plugin.version}</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
