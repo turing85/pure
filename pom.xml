@@ -172,7 +172,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>${dependency-check-maven.goal}</goal>
+                            <goal>check</goal>
                         </goals>
                         <phase>package</phase>
                         <configuration>
