@@ -32,10 +32,10 @@ class ResultTests {
 
       // THEN
       assertThat(result.hasValue()).isTrue();
-      assertThat(result.hasError()).isFalse();
       assertThat(result.value().isPresent()).isTrue();
-      assertThat(result.errorDescriptor().isEmpty()).isTrue();
       assertThat(result.value().get()).isEqualTo(expectedValue);
+      assertThat(result.hasError()).isFalse();
+      assertThat(result.errorDescriptor().isEmpty()).isTrue();
     }
 
     @Test
@@ -49,8 +49,8 @@ class ResultTests {
 
       // THEN
       assertThat(result.hasValue()).isFalse();
-      assertThat(result.hasError()).isTrue();
       assertThat(result.value().isEmpty()).isTrue();
+      assertThat(result.hasError()).isTrue();
       assertThat(result.errorDescriptor().isPresent()).isTrue();
       assertThat(result.errorDescriptor().get()).isEqualTo(expectedErrorDescriptor);
     }
@@ -73,9 +73,9 @@ class ResultTests {
       var actual = Result.invoke(callable);
 
       // THEN
-      assertThat(actual.errorDescriptor().isEmpty()).isTrue();
       assertThat(actual.value().isPresent()).isTrue();
       assertThat(actual.value().get()).isEqualTo(expectedValue);
+      assertThat(actual.errorDescriptor().isEmpty()).isTrue();
     }
 
     @Test
@@ -108,16 +108,16 @@ class ResultTests {
     @DisplayName("no error occurs \uD83C\uDF89")
     void noError() {
       // GIVEN
-      boolean expectedErrorDescriptor = true;
-      when(supplier.get()).thenReturn(expectedErrorDescriptor);
+      boolean expectedValue = true;
+      when(supplier.get()).thenReturn(expectedValue);
 
       // WHEN
       var actual = Result.invoke(supplier, errorCondition);
 
       // THEN
-      assertThat(actual.errorDescriptor().isEmpty()).isTrue();
       assertThat(actual.value().isPresent()).isTrue();
-      assertThat(actual.value().get()).isEqualTo(expectedErrorDescriptor);
+      assertThat(actual.value().get()).isEqualTo(expectedValue);
+      assertThat(actual.errorDescriptor().isEmpty()).isTrue();
     }
 
     @Test
@@ -156,8 +156,8 @@ class ResultTests {
 
       // THEN
       assertThat(result.value().isPresent()).isTrue();
-      assertThat(result.errorDescriptor().isEmpty()).isTrue();
       assertThat(result.value().get()).isEqualTo(expectedValue);
+      assertThat(result.errorDescriptor().isEmpty()).isTrue();
     }
 
     @Test
@@ -185,16 +185,16 @@ class ResultTests {
     void noError() {
       // GIVEN
       String expectedValue = "true";
-      Supplier<Boolean> parameterProvider = () -> true;
       ThrowingFunction<Boolean, String> function = Object::toString;
+      Supplier<Boolean> parameterProvider = () -> true;
 
       // WHEN
       var result = Result.invoke(function, parameterProvider);
 
       // THEN
       assertThat(result.value().isPresent()).isTrue();
-      assertThat(result.errorDescriptor().isEmpty()).isTrue();
       assertThat(result.value().get()).isEqualTo(expectedValue);
+      assertThat(result.errorDescriptor().isEmpty()).isTrue();
     }
 
     @Test
@@ -202,10 +202,10 @@ class ResultTests {
     void error() {
       // GIVEN
       Exception expectedErrorDescriptor = new Exception();
-      Supplier<Boolean> parameterProvider = () -> false;
       ThrowingFunction<Boolean, String> function = ignored -> {
         throw expectedErrorDescriptor;
       };
+      Supplier<Boolean> parameterProvider = () -> false;
 
       // WHEN
       var result = Result.invoke(function, parameterProvider);
@@ -224,12 +224,12 @@ class ResultTests {
     @DisplayName("call on value result \uD83D\uDCB0 ⮕ \uD83D\uDCE3")
     void callOnValue() {
       // GIVEN
+      String expectedValue = "expectedValue";
+      Result<String, Object> result = Result.ofValue(expectedValue);
       @SuppressWarnings("unchecked")
       Consumer<String> onSuccess = mock(Consumer.class);
       @SuppressWarnings("unchecked")
       Consumer<Object> onError = mock(Consumer.class);
-      String expectedValue = "expectedValue";
-      Result<String, Object> result = Result.ofValue(expectedValue);
 
       // WHEN
       result.call(onSuccess, onError);
@@ -243,10 +243,10 @@ class ResultTests {
     @DisplayName("call success on value result \uD83D\uDCB0 ⮕ \uD83D\uDCE3 ⮕ \uD83D\uDCB0")
     void callSuccessOnValue() {
       // GIVEN
-      @SuppressWarnings("unchecked")
-      Consumer<String> onSuccess = mock(Consumer.class);
       String expectedValue = "expectedValue";
       Result<String, Object> result = Result.ofValue(expectedValue);
+      @SuppressWarnings("unchecked")
+      Consumer<String> onSuccess = mock(Consumer.class);
 
       // WHEN
       result.callOnSuccess(onSuccess);
@@ -259,9 +259,9 @@ class ResultTests {
     @DisplayName("call error on value result \uD83D\uDCB0 ⮕ \uD83D\uDCE3 ⮕ \uD83D\uDCA3")
     void callErrorOnValue() {
       // GIVEN
+      Result<String, Object> result = Result.ofValue("expectedValue");
       @SuppressWarnings("unchecked")
       Consumer<Object> onError = mock(Consumer.class);
-      Result<String, Object> result = Result.ofValue("expectedValue");
 
       // WHEN
       result.callOnError(onError);
@@ -274,12 +274,12 @@ class ResultTests {
     @DisplayName("call on error result \uD83D\uDCA3 ⮕ \uD83D\uDCE3")
     void callOnError() {
       // GIVEN
+      Object expectedErrorDescriptor = new Object();
+      Result<String, Object> result = Result.ofError(expectedErrorDescriptor);
       @SuppressWarnings("unchecked")
       Consumer<String> onSuccess = mock(Consumer.class);
       @SuppressWarnings("unchecked")
       Consumer<Object> onError = mock(Consumer.class);
-      Object expectedErrorDescriptor = new Object();
-      Result<String, Object> result = Result.ofError(expectedErrorDescriptor);
 
       // WHEN
       result.call(onSuccess, onError);
@@ -293,9 +293,9 @@ class ResultTests {
     @DisplayName("call success on error result \uD83D\uDCA3 ⮕ \uD83D\uDCE3 ⮕ \uD83D\uDCB0")
     void callSuccessOnError() {
       // GIVEN
+      Result<String, Object> result = Result.ofError(new Object());
       @SuppressWarnings("unchecked")
       Consumer<String> onSuccess = mock(Consumer.class);
-      Result<String, Object> result = Result.ofError(new Object());
 
       // WHEN
       result.callOnSuccess(onSuccess);
@@ -308,10 +308,10 @@ class ResultTests {
     @DisplayName("call onError on error result \uD83D\uDCA3 ⮕ \uD83D\uDCE3 ⮕ \uD83D\uDCA3")
     void callErrorOnError() {
       // GIVEN
-      @SuppressWarnings("unchecked")
-      Consumer<Object> onError = mock(Consumer.class);
       Object expectedErrorDescriptor = new Object();
       Result<String, Object> result = Result.ofError(expectedErrorDescriptor);
+      @SuppressWarnings("unchecked")
+      Consumer<Object> onError = mock(Consumer.class);
 
       // WHEN
       result.callOnError(onError);
@@ -325,22 +325,22 @@ class ResultTests {
   @DisplayName("Map tests")
   class MapTests {
     @Test
-    @DisplayName("map on value result️ \uD83D\uDCB0 ⮕ \uD83D\uDDFA️")
+    @DisplayName("map on value result \uD83D\uDCB0 ⮕ \uD83D\uDDFA️")
     void mapOnValue() {
       // GIVEN
+      String value = "value";
+      Result<String, Object> result = Result.ofValue(value);
       Function<String, String> onSuccess = String::toUpperCase;
       @SuppressWarnings("unchecked")
       Function<Object, Object> onError = mock(Function.class);
-      String value = "value";
-      Result<String, Object> result = Result.ofValue(value);
 
       // WHEN
       var mappedResult = result.map(onSuccess, onError);
 
       // THEN
       assertThat(mappedResult.value().isPresent()).isTrue();
-      assertThat(mappedResult.errorDescriptor().isEmpty()).isTrue();
       assertThat(mappedResult.value().get()).isEqualTo(value.toUpperCase());
+      assertThat(mappedResult.errorDescriptor().isEmpty()).isTrue();
 
       verifyNoInteractions(onError);
     }
@@ -349,11 +349,11 @@ class ResultTests {
     @DisplayName("map on error result \uD83D\uDCA3 ⮕ \uD83D\uDDFA️️")
     void mapOnError() {
       // GIVEN
+      Object expectedErrorDescriptor = new Object();
+      Result<String, Object> result = Result.ofError(new Object());
       @SuppressWarnings("unchecked")
       Function<String, String> onSuccess = mock(Function.class);
-      Object expectedErrorDescriptor = new Object();
       Function<Object, Object> onError = object -> expectedErrorDescriptor;
-      Result<String, Object> result = Result.ofError(new Object());
 
       // WHEN
       var mappedResult = result.map(onSuccess, onError);
@@ -370,27 +370,27 @@ class ResultTests {
     @DisplayName("map value on value result \uD83D\uDCB0 ⮕ \uD83D\uDDFA️️ ⮕ \uD83D\uDCB0")
     void mapValueOnValue() {
       // GIVEN
-      Function<String, String> onSuccess = String::toUpperCase;
       String value = "value";
       Result<String, Object> result = Result.ofValue(value);
+      Function<String, String> onSuccess = String::toUpperCase;
 
       // WHEN
       var mappedResult = result.mapValue(onSuccess);
 
       // THEN
       assertThat(mappedResult.value().isPresent()).isTrue();
-      assertThat(mappedResult.errorDescriptor().isEmpty()).isTrue();
       assertThat(mappedResult.value().get()).isEqualTo(value.toUpperCase());
+      assertThat(mappedResult.errorDescriptor().isEmpty()).isTrue();
     }
 
     @Test
     @DisplayName("map value on error result \uD83D\uDCA3 ⮕  \uD83D\uDDFA️️ ⮕ \uD83D\uDCB0")
     void mapValueOnError() {
       // GIVEN
-      @SuppressWarnings("unchecked")
-      Function<String, String> onSuccess = mock(Function.class);
       Object errorDescriptor = new Object();
       Result<String, Object> result = Result.ofError(errorDescriptor);
+      @SuppressWarnings("unchecked")
+      Function<String, String> onSuccess = mock(Function.class);
 
       // WHEN
       var mappedResult = result.mapValue(onSuccess);
@@ -407,18 +407,18 @@ class ResultTests {
     @DisplayName("map error on value result \uD83D\uDCA3 ⮕  \uD83D\uDDFA️️ ⮕  \uD83D\uDCB0")
     void mapErrorOnValue() {
       // GIVEN
-      @SuppressWarnings("unchecked")
-      Function<Object, Object> onError = mock(Function.class);
       String value = "value";
       Result<String, Object> result = Result.ofValue(value);
+      @SuppressWarnings("unchecked")
+      Function<Object, Object> onError = mock(Function.class);
 
       // WHEN
       var mappedResult = result.mapErrorDescriptor(onError);
 
       // THEN
       assertThat(mappedResult.value().isPresent()).isTrue();
-      assertThat(mappedResult.errorDescriptor().isEmpty()).isTrue();
       assertThat(mappedResult.value().get()).isEqualTo(value);
+      assertThat(mappedResult.errorDescriptor().isEmpty()).isTrue();
 
       verifyNoInteractions(onError);
     }
@@ -428,8 +428,8 @@ class ResultTests {
     void mapErrorOnError() {
       // GIVEN
       Object expectedErrorDescriptor = new Object();
-      Function<Object, Object> onError = object -> expectedErrorDescriptor;
       Result<String, Object> result = Result.ofError(new Object());
+      Function<Object, Object> onError = object -> expectedErrorDescriptor;
 
       // WHEN
       var mappedResult = result.mapErrorDescriptor(onError);
