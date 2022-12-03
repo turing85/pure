@@ -48,4 +48,4 @@ jobs:
           # refresh cache every month to avoid unlimited growth
           key: maven-repo-${{ runner.os }}-${{ env.date }}
       - name: Build with Maven
-        run: mvn -B package verify install --file pom.xml
+        run: mvn -B verify install --file pom.xml
