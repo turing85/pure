@@ -35,6 +35,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
+      - name: Get Date
+        id: get-date
+        run: |
+          echo "::set-output name=date::$(/bin/date -u "+%Y-%m")"
+        shell: bash
       - name: Cache Maven Repository
         id: cache-maven
         uses: actions/cache@v2
