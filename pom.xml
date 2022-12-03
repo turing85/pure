@@ -41,6 +41,7 @@
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
+        <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
 
         <!-- Project setup -->
         <dependency-check-maven.skip>false</dependency-check-maven.skip>
@@ -53,6 +54,9 @@
         <maven-jxr-plugin.report.goal>aggregate</maven-jxr-plugin.report.goal>
         <maven-jxr-plugin.report-test.goal>test-aggregate</maven-jxr-plugin.report-test.goal>
         <maven-site-plugin.stage.skip>false</maven-site-plugin.stage.skip>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${maven.multiModuleProjectDirectory}/jacoco-aggregation/target/jacoco/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <git-ssh-url>git:ssh://github.com/turing85/pure.git</git-ssh-url>
 
@@ -262,6 +266,12 @@
                     <signTag>true</signTag>
                     <tagNameFormat>@{project.version}</tagNameFormat>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin.version}</version>
+                <inherited>false</inherited>
             </plugin>
         </plugins>
     </build>
