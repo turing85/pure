@@ -59,6 +59,10 @@
         <sonar.coverage.jacoco.xmlReportPaths>
             ${maven.multiModuleProjectDirectory}/jacoco-aggregation/target/jacoco/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
+        <!-- TODO: remove when samples are written -->
+        <sonar.exclusions>
+            **/*Sample*.java
+        </sonar.exclusions>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <git-ssh-url>git:ssh://github.com/turing85/pure.git</git-ssh-url>
 
