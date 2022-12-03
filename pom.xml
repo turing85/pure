@@ -50,6 +50,8 @@
         <jacoco-maven-plugin.skip>false</jacoco-maven-plugin.skip>
         <jacoco-maven-plugin.sample-exclude>**/*Sample*</jacoco-maven-plugin.sample-exclude>
         <maven.compiler.release>17</maven.compiler.release>
+        <maven.compiler.source>${maven.compiler.release}</maven.compiler.source>
+        <maven.compiler.target>${maven.compiler.release}</maven.compiler.target>
         <maven-javadoc-plugin.skip>false</maven-javadoc-plugin.skip>
         <maven-jxr-plugin.report.goal>aggregate</maven-jxr-plugin.report.goal>
         <maven-jxr-plugin.report-test.goal>test-aggregate</maven-jxr-plugin.report-test.goal>
