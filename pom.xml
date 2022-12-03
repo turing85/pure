@@ -57,7 +57,7 @@
         <maven-jxr-plugin.report-test.goal>test-aggregate</maven-jxr-plugin.report-test.goal>
         <maven-site-plugin.stage.skip>false</maven-site-plugin.stage.skip>
         <sonar.coverage.jacoco.xmlReportPaths>
-            ${maven.multiModuleProjectDirectory}/jacoco-aggregation/target/jacoco/jacoco.xml
+            ${project.basedir}/jacoco-aggregation/target/jacoco/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <git-ssh-url>git:ssh://github.com/turing85/pure.git</git-ssh-url>
