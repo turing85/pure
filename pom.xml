@@ -32,11 +32,11 @@
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
         <maven-deploy-plugin.version>3.0.0</maven-deploy-plugin.version>
-        <maven-resource-plugin.version>3.2.0</maven-resource-plugin.version>
         <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
         <maven-jxr-plugin.version>3.3.0</maven-jxr-plugin.version>
         <maven-project-info-reports-plugin.version>3.4.1</maven-project-info-reports-plugin.version>
         <maven-release-plugin.version>3.0.0-M7</maven-release-plugin.version>
+        <maven-resource-plugin.version>3.2.0</maven-resource-plugin.version>
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
@@ -46,20 +46,20 @@
         <dependency-check-maven.skip>false</dependency-check-maven.skip>
         <formatter-maven-plugin.goal>format</formatter-maven-plugin.goal>
         <formatter-maven-plugin.skip>false</formatter-maven-plugin.skip>
-        <jacoco-maven-plugin.skip>false</jacoco-maven-plugin.skip>
+        <git-ssh-url>git:ssh://github.com/turing85/pure.git</git-ssh-url>
         <jacoco-maven-plugin.sample-exclude>**/*Sample*</jacoco-maven-plugin.sample-exclude>
+        <jacoco-maven-plugin.skip>false</jacoco-maven-plugin.skip>
         <maven.compiler.release>17</maven.compiler.release>
         <maven.compiler.source>${maven.compiler.release}</maven.compiler.source>
         <maven.compiler.target>${maven.compiler.release}</maven.compiler.target>
         <maven-javadoc-plugin.skip>false</maven-javadoc-plugin.skip>
         <maven-site-plugin.stage.skip>false</maven-site-plugin.stage.skip>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.coverage.jacoco.xmlReportPaths>
             ${maven.multiModuleProjectDirectory}/jacoco-aggregation/target/jacoco/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
         <!-- TODO: remove when samples are written -->
         <sonar.exclusions>**/*Sample*.java</sonar.exclusions>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <git-ssh-url>git:ssh://github.com/turing85/pure.git</git-ssh-url>
 
         <!-- Dependency setup -->
         <junit-jupiter.version>5.9.1</junit-jupiter.version>
