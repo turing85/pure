@@ -44,6 +44,7 @@
 
         <!-- Project setup -->
         <dependency-check-maven.skip>false</dependency-check-maven.skip>
+        <formatter-maven-plugin.goal>format</formatter-maven-plugin.goal>
         <formatter-maven-plugin.skip>false</formatter-maven-plugin.skip>
         <jacoco-maven-plugin.skip>false</jacoco-maven-plugin.skip>
         <jacoco-maven-plugin.sample-exclude>**/*Sample*</jacoco-maven-plugin.sample-exclude>
@@ -254,6 +255,17 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>ci</id>
+            <activation>
+                <property>
+                    <name>ci</name>
+                </property>
+            </activation>
+            <properties>
+                <formatter-maven-plugin.goal>validate</formatter-maven-plugin.goal>
+            </properties>
+        </profile>
         <profile>
             <id>disable-dependency-checker</id>
             <activation>

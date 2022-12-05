@@ -39,8 +39,7 @@ jobs:
           distribution: 'temurin'
       - name: Set Date Env
         id: set-date-env
-        run: |
-          echo "date=$(/bin/date -u "+%Y-%m")" >> $GITHUB_ENV
+        run: echo "date=$(/bin/date -u "+%Y-%m")" >> $GITHUB_ENV
         shell: bash
       - name: Cache Maven Repository
         id: cache-maven
@@ -52,7 +51,7 @@ jobs:
           restore-keys: |
             maven-repo-${{ runner.os }}-${{ env.date }}
       - name: Build with Maven
-        run: mvn -B install --file pom.xml
+        run: mvn --batch-mode --define ci --file pom.xml install
       - name: Analyze with SonarCloud
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
