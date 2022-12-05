@@ -52,7 +52,7 @@ jobs:
           restore-keys: |
             maven-repo-${{ runner.os }}-${{ env.date }}
       - name: Build with Maven
-        run: mvn -B verify install --file pom.xml
+        run: mvn -B install --file pom.xml
       - name: Analyze with SonarCloud
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
