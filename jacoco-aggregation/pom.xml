@@ -26,12 +26,6 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
                         <id>jacoco-report</id>
                         <phase>package</phase>
                         <goals>
@@ -78,9 +72,6 @@
                 </reportSets>
                 <configuration>
                     <goal>report-aggregate</goal>
-                    <excludes>
-                        <exclude>${jacoco-maven-plugin.sample-exclude}</exclude>
-                    </excludes>
                 </configuration>
             </plugin>
         </plugins>
