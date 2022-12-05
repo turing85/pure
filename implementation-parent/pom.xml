@@ -10,14 +10,6 @@
         <version>999-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <dependency-check-maven.goal>check</dependency-check-maven.goal>
-        <maven-javadoc-plugin.goal>javadoc</maven-javadoc-plugin.goal>
-        <jacoco-maven-plugin.goal>report</jacoco-maven-plugin.goal>
-        <maven-jxr-plugin.report-jxr.goal>jxr-no-fork</maven-jxr-plugin.report-jxr.goal>
-        <maven-jxr-plugin.report-test.goal>test-jxr-no-fork</maven-jxr-plugin.report-test.goal>
-    </properties>
-
     <artifactId>pure-implementation-parent</artifactId>
     <name>pure :: implementation parent</name>
     <description>Parent-module for all modules providing implementations.</description>
@@ -46,15 +38,69 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>${jacoco-maven-plugin.sample-exclude}</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
                     <execution>
                         <id>jacoco-report</id>
                         <phase>package</phase>
                         <goals>
                             <goal>report</goal>
                             <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>${dependency-check-maven.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -123,12 +169,39 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <aggregate>false</aggregate>
                     <linkXRef>true</linkXRef>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>${dependency-check-maven.version}</version>
+                <configuration>
+                    <name>OWASP Dependency Check</name>
+                    <goal>check</goal>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>${maven-jxr-plugin.version}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>jxr-no-fork</report>
+                            <report>test-jxr-no-fork</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -141,12 +214,29 @@
                         </reports>
                     </reportSet>
                 </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
                 <configuration>
-                    <goal>report</goal>
-                    <excludes>
-                        <exclude>${jacoco-maven-plugin.sample-exclude}</exclude>
-                    </excludes>
+                    <additionalOptions>-package</additionalOptions>
+                    <goal>javadoc</goal>
+                    <show>public</show>
+                    <source>${maven.compiler.release}</source>
+                    <!-- TODO: remove when samples are written -->
+                    <sourceFileExcludes>
+                        <exclude>de/turing85/pure/Sample.java</exclude>
+                    </sourceFileExcludes>
                 </configuration>
+                <reportSets>
+                    <reportSet>
+                        <id>default</id>
+                        <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
             </plugin>
         </plugins>
     </reporting>
