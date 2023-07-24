@@ -62,7 +62,7 @@
         <sonar.exclusions>**/*Sample*.java</sonar.exclusions>
 
         <!-- Dependency setup -->
-        <junit-jupiter.version>5.9.3</junit-jupiter.version>
+        <junit-jupiter.version>5.10.0</junit-jupiter.version>
         <lombok.version>1.18.28</lombok.version>
         <mockito.version>5.4.0</mockito.version>
         <truth.version>1.1.5</truth.version>
