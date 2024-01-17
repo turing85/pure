@@ -27,7 +27,7 @@
 
     <properties>
         <!-- Plugin setup -->
-        <dependency-check-maven.version>8.4.3</dependency-check-maven.version>
+        <dependency-check-maven.version>9.0.9</dependency-check-maven.version>
         <formatter-maven-plugin.version>2.23.0</formatter-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
         <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
