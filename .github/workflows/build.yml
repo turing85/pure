@@ -42,7 +42,13 @@ jobs:
           cache: 'maven'
 
       - name: Build with Maven
-        run: mvn --batch-mode --define ci --file pom.xml install
+        run: |
+          mvn \
+            --batch-mode \
+            --define ci \
+            --define nvdApiKey=${{ secrets.NVD_API_KEY }} \
+            --file pom.xml \
+            install
 
       - name: Analyze with SonarCloud
         env:
