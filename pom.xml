@@ -65,7 +65,7 @@
         <junit-jupiter.version>5.13.4</junit-jupiter.version>
         <lombok.version>1.18.40</lombok.version>
         <mockito.version>5.19.0</mockito.version>
-        <truth.version>1.4.4</truth.version>
+        <truth.version>1.4.5</truth.version>
     </properties>
 
     <url>https://github.com/turing85/pure</url>
