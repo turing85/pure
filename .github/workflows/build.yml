@@ -42,11 +42,13 @@ jobs:
           cache: 'maven'
 
       - name: Build with Maven
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
         run: |
           mvn \
             --batch-mode \
             --define ci \
-            --define nvdApiKey=${{ secrets.NVD_API_KEY }} \
+            --define nvdApiKey=${NVD_API_KEY} \
             --file pom.xml \
             install
 
