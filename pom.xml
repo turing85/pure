@@ -64,7 +64,7 @@
         <!-- Dependency setup -->
         <junit-jupiter.version>6.0.1</junit-jupiter.version>
         <lombok.version>1.18.42</lombok.version>
-        <mockito.version>5.20.0</mockito.version>
+        <mockito.version>5.21.0</mockito.version>
         <truth.version>1.4.5</truth.version>
     </properties>
 
