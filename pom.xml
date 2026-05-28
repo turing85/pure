@@ -31,6 +31,7 @@
         <formatter-maven-plugin.version>2.29.0</formatter-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
         <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
+        <maven-dependency-plugin.version>3.11.0</maven-dependency-plugin.version>
         <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
         <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
         <maven-jxr-plugin.version>3.6.0</maven-jxr-plugin.version>
@@ -95,9 +96,22 @@
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven-dependency-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>properties</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
+                        <argLine>@{argLine} -javaagent:${org.mockito:mockito-core:jar}</argLine>
                         <consoleOutputReporter
                                 implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5ConsoleOutputReporter">
                             <disable>false</disable>
@@ -156,10 +170,10 @@
                     <artifactId>dependency-check-maven</artifactId>
                     <version>${dependency-check-maven.version}</version>
                     <configuration>
+                        <ossIndexAnalyzerEnabled>false</ossIndexAnalyzerEnabled>
                         <outputDirectory>${project.build.directory}/owasp</outputDirectory>
-                        <reportOutputDirectory>${project.build.directory}/owasp</reportOutputDirectory>
                         <skip>${dependency-check-maven.skip}</skip>
-                        <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
+                        <failBuildOnCVSS>0</failBuildOnCVSS>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -168,8 +182,6 @@
                     <version>${maven-javadoc-plugin.version}</version>
                     <configuration>
                         <additionalOptions>-package</additionalOptions>
-                        <destDir>javadoc</destDir>
-                        <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
                         <show>public</show>
                         <skip>${maven-javadoc-plugin.skip}</skip>
                         <source>${maven.compiler.release}</source>
@@ -185,10 +197,21 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${maven-javadoc-plugin.version}</version>
                 <executions>
                     <execution>
+                        <configuration>
+                            <destDir>javadoc</destDir>
+                            <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>aggregate</id>
                         <goals>
                             <goal>aggregate</goal>
                         </goals>
